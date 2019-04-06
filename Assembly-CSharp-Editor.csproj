@@ -105,6 +105,11 @@
     <Compile Include="Assets\Oldies\HoloToolkit\Sharing\Scripts\Editor\SharingStageEditor.cs" />
     <Compile Include="Assets\Oldies\HoloToolkit\SpatialMapping\Scripts\RemoteMapping\Editor\RoomMeshExporter.cs" />
     <Compile Include="Assets\Oldies\HoloToolkit\SpatialMapping\Scripts\SpatialProcessing\Editor\SurfaceMeshesToPlanesEditor.cs" />
+    <Compile Include="Assets\Oldies\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\AudioEventBankEditor.cs" />
+    <Compile Include="Assets\Oldies\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\AudioEventPropertyDrawer.cs" />
+    <Compile Include="Assets\Oldies\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\UAudioManagerBaseEditor.cs" />
+    <Compile Include="Assets\Oldies\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\UAudioManagerEditor.cs" />
+    <Compile Include="Assets\Oldies\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\UAudioProfiler.cs" />
     <Compile Include="Assets\Oldies\HoloToolkit\Utilities\Scripts\AtlasReferenceUpdater\Editor\AtlasReferenceUpdater.cs" />
     <Compile Include="Assets\Oldies\HoloToolkit\Utilities\Scripts\AtlasReferenceUpdater\Editor\Extensions\SerializedPropertyExtensions.cs" />
     <Compile Include="Assets\Oldies\HoloToolkit\Utilities\Scripts\AtlasReferenceUpdater\Editor\Extensions\SpriteAtlasExtensions.cs" />

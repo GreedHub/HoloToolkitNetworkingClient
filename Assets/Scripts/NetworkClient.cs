@@ -5,6 +5,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.XR;
+using UnityEngine.XR.WSA;
+using System.Globalization;
+using System.Threading;
 
 public class ServerClient {
     public int connectionId;
@@ -26,6 +30,7 @@ public class NetworkClient : MonoBehaviour {
     public GameObject playerPrefab;
     public GameObject otherPlayerPrefab;
     public GameObject boxToPlay;
+     
     List<PlayBox> listOfBoxes = new List<PlayBox>();
     public float networkMessageSendRate = 0.05f;
     private float lastSentTime;
@@ -40,14 +45,19 @@ public class NetworkClient : MonoBehaviour {
 
     private int connectionId;
 
+
     private float connectionTime;
     private bool isConnected = false;
     private bool isStarted = false;
     private byte error;
 
+    public Text debugText;
+    public Text boxDebugText;
     private Vector3 lastPosition;
     private Quaternion lastRotation;
     private string playerName;
+
+    private char decimalseparator = char.Parse(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 
     public void Connect()
     {
@@ -64,8 +74,8 @@ public class NetworkClient : MonoBehaviour {
         hostId = NetworkTransport.AddHost(networkTopology, 0);
         Debug.Log("connecting to: " + hostIp);
         connectionId = NetworkTransport.Connect(hostId, hostIp, port, 0, out error);
-
-        Debug.Log(error);
+        
+        Debug.Log((NetworkError)error);
 
         connectionTime = Time.time;
         isConnected = true;
@@ -75,6 +85,14 @@ public class NetworkClient : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
+        if (XRDevice.SetTrackingSpaceType(TrackingSpaceType.RoomScale))
+        {
+            Debug.Log("RoomScale mode was set successfully!!");
+        }
+        else
+        {
+            Debug.Log("RoomScale mode was not set successfully");
+        }
         NetworkTransport.Init();
         Connect();
     }
@@ -104,6 +122,8 @@ public class NetworkClient : MonoBehaviour {
 
             case NetworkEventType.ConnectEvent:
                 Debug.Log("I've connected");
+
+                
                 break;
 
             case NetworkEventType.DataEvent:
@@ -114,6 +134,7 @@ public class NetworkClient : MonoBehaviour {
                 switch (msgArray[0])
                 {
                     case "ASKNAME":
+                        
                         for (int i = 2; i <= msgArray.Length - 1; i++)
                         {
                             string[] alreadyConnectedPlayer = msgArray[i].Split('%');
@@ -132,11 +153,14 @@ public class NetworkClient : MonoBehaviour {
                         Quaternion boxRotation = new Quaternion(ParseFloatUnit(msgArray[4]), ParseFloatUnit(msgArray[5]), ParseFloatUnit(msgArray[6]), ParseFloatUnit(msgArray[7]));
                         PlayBox box = new PlayBox();
                         box.prefab = Instantiate(boxToPlay, boxPosition, boxRotation);
+                        box.prefab.AddComponent<WorldAnchor>();
                         box.boxId = int.Parse(msgArray[8]);
+                        box.prefab.transform.hasChanged = false;
                         listOfBoxes.Add(box);
                         break;
 
                     case "UPDCARTRANS":
+                        
                         Vector3 updatedPosition = new Vector3(ParseFloatUnit(msgArray[1]), ParseFloatUnit(msgArray[2]), ParseFloatUnit(msgArray[3]));
                         Quaternion updatedRotation = new Quaternion(ParseFloatUnit(msgArray[4]), ParseFloatUnit(msgArray[5]), ParseFloatUnit(msgArray[6]), ParseFloatUnit(msgArray[7]));
                         MoveClientPlayer(clientsList.Find(x => x.connectionId == int.Parse(msgArray[8])), updatedPosition, updatedRotation);
@@ -188,8 +212,10 @@ public class NetworkClient : MonoBehaviour {
     {
         if (box.prefab != null)
         {
+            DestroyImmediate(box.prefab.GetComponent<WorldAnchor>());
             box.prefab.transform.position = updatedPosition;
             box.prefab.transform.rotation = updatedRotation;
+            box.prefab.AddComponent<WorldAnchor>();
             box.prefab.transform.hasChanged = false;
         }
     }
@@ -197,8 +223,10 @@ public class NetworkClient : MonoBehaviour {
     private float ParseFloatUnit(string value)
     {
         float parsedFloat;
+        string parsedValue = value.Replace('.', decimalseparator);
+        parsedValue = parsedValue.Replace(',', decimalseparator);
 
-        if (float.TryParse(value, out parsedFloat))
+        if (float.TryParse(parsedValue, out parsedFloat))
         {
             return parsedFloat;
         }
@@ -214,6 +242,7 @@ public class NetworkClient : MonoBehaviour {
     {
         if (player.playerPrefab != null)
         {
+            Debug.Log(updatedPosition);
             player.playerPrefab.transform.position = updatedPosition;
             player.playerPrefab.transform.rotation = updatedRotation;
         }
@@ -248,7 +277,7 @@ public class NetworkClient : MonoBehaviour {
         msg += playerPrefab.transform.rotation.y + "|";
         msg += playerPrefab.transform.rotation.z + "|";
         msg += playerPrefab.transform.rotation.w;
-
+        debugText.text = msg;
         SendNetworkMessage(msg, unreliableChannel, connectionId);
     }
 
@@ -263,7 +292,7 @@ public class NetworkClient : MonoBehaviour {
         msg += rotation.z + "|";
         msg += rotation.w + "|";
         msg += boxId;
-
+        boxDebugText.text = msg;
         SendNetworkMessage(msg, unreliableChannel, connectionId);
     }
 }
