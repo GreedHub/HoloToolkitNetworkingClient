@@ -1,6 +1,6 @@
 WindowsStoreApps
 PlayerPath?
-D:/Ubicaciones/WorkSpace/Unity/HololensNetworking/Builds
+D:/Ubicaciones/WorkSpace/Unity/HololensNetworking/Builds/v1.0
 SceneListBegin?
 Assets/Scenes/Client.unity
 SceneListEnd?
@@ -417,7 +417,7 @@ b77b0e8b94fb2f83f7731fe64dc59332 Assembly-CSharp.dll:HoloToolkit.Unity.InputModu
 4b704d2f4a3206307bb1095e43d19afe Assembly-CSharp.dll:HoloToolkit.Unity.HeadsUpDirectionIndicator
 1c12bdf2a898bfc6b2c33c830ebf3d46 Assembly-CSharp.dll:HoloToolkit.UI.Keyboard.KeyboardKeyFunc
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:HoloToolkit.Unity.UsabilityScaler
-d35eb0c2462248b571cf68756301389e Assembly-CSharp.dll:.NetworkClient
+f40268f694470fda084a5f5bc21f998d Assembly-CSharp.dll:.NetworkClient
 35cc04addc682c7520698e3444f6a32d Assembly-CSharp.dll:HoloToolkit.Unity.UX.LineStripMesh
 e97d868479cfe2aee5c682ba5ebb6473 Assembly-CSharp.dll:HoloToolkit.Unity.SimpleTagalong
 102100d2b12944a36016855514835e6d Assembly-CSharp.dll:HoloToolkit.Examples.UX.LoadingAnimation

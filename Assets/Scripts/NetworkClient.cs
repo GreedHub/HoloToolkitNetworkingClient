@@ -51,8 +51,8 @@ public class NetworkClient : MonoBehaviour {
     private bool isStarted = false;
     private byte error;
 
-    public Text debugText;
-    public Text boxDebugText;
+    //public Text debugText;
+    //public Text boxDebugText;
     private Vector3 lastPosition;
     private Quaternion lastRotation;
     private string playerName;
@@ -277,7 +277,7 @@ public class NetworkClient : MonoBehaviour {
         msg += playerPrefab.transform.rotation.y + "|";
         msg += playerPrefab.transform.rotation.z + "|";
         msg += playerPrefab.transform.rotation.w;
-        debugText.text = msg;
+        //debugText.text = msg;
         SendNetworkMessage(msg, unreliableChannel, connectionId);
     }
 
@@ -292,7 +292,7 @@ public class NetworkClient : MonoBehaviour {
         msg += rotation.z + "|";
         msg += rotation.w + "|";
         msg += boxId;
-        boxDebugText.text = msg;
+        //boxDebugText.text = msg;
         SendNetworkMessage(msg, unreliableChannel, connectionId);
     }
 }

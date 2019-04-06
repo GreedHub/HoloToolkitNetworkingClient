@@ -297,9 +297,7 @@ MonoBehaviour:
     type: 3}
   boxToPlay: {fileID: 5365613134579949438, guid: 00ebd8af197c99d48bd3678834d53407,
     type: 3}
-  networkMessageSendRate: 0.2
-  debugText: {fileID: 0}
-  boxDebugText: {fileID: 0}
+  networkMessageSendRate: 0.05
 --- !u!4 &798620555
 Transform:
   m_ObjectHideFlags: 0
